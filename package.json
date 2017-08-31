@@ -1,6 +1,6 @@
 {
   "name": "moment-holiday",
-  "version": "1.4.2",
+  "version": "1.5.1",
   "description": "A Moment.js plugin for handling holidays.",
   "keywords": [
     "moment",
@@ -12,10 +12,13 @@
     "us",
     "canada",
     "croatia",
+    "denmark",
     "hrvatska",
+    "india",
     "easter",
     "finland",
-    "germany"
+    "germany",
+    "switzerland"
   ],
   "author": {
     "name": "Kodie Grantham",
@@ -31,8 +34,9 @@
   },
   "homepage": "https://github.com/kodie/moment-holiday",
   "license": "MIT",
-  "main": "moment-holiday.js",
+  "main": "./build/moment-holiday-us.min.js",
   "files": [
+    "build/",
     "locale/"
   ],
   "dependencies": {
@@ -40,9 +44,17 @@
   },
   "devDependencies": {
     "ava": ">=0.10.0",
-    "jshint": ">=2.9.1"
+    "gulp": ">=3.0.0",
+    "gulp-concat": ">=2.0.0",
+    "gulp-if": ">=2.0.0",
+    "gulp-inject-string": ">=1.0.0",
+    "gulp-rename": ">=1.0.0",
+    "gulp-sourcemaps": ">=2.0.0",
+    "gulp-uglify": ">=3.0.0",
+    "jshint": ">=2.9.1",
+    "yargs": ">=8.0.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/jshint *.js **/*.js && ava"
+    "test": "./node_modules/.bin/jshint *.js locale/*.js && ava"
   }
 }

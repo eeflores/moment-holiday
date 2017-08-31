@@ -1,6 +1,33 @@
-# moment-holiday [![npm version](https://badge.fury.io/js/moment-holiday.svg)](https://badge.fury.io/js/moment-holiday) [![Build Status](https://travis-ci.org/kodie/moment-holiday.svg?branch=master)](https://travis-ci.org/kodie/moment-holiday)
+# moment-holiday
+[![npm package version](https://img.shields.io/npm/v/moment-holiday.svg?style=flat-square)](https://www.npmjs.com/package/moment-holiday) [![Travis build status](https://img.shields.io/travis/kodie/moment-holiday.svg?style=flat-square)](https://travis-ci.org/kodie/moment-holiday) [![npm package downloads](https://img.shields.io/npm/dt/moment-holiday.svg?style=flat-square)](https://www.npmjs.com/package/moment-holiday) [![build/moment-holiday.min.js file size](https://img.shields.io/github/size/kodie/moment-holiday/build/moment-holiday.min.js.svg?style=flat-square)](build/moment-holiday.min.js) [![license](https://img.shields.io/github/license/kodie/moment-holiday.svg?style=flat-square)](LICENSE.md)
 
 A [Moment.js](https://github.com/moment/moment) plugin for handling holidays.
+
+## Table of Contents
+* [Requirements](#requirements)
+* [Installation](#installation)
+  * [Node.js](#nodejs)
+  * [Browser](#browser)
+  * [Bower](#bower)
+* [Building](#building)
+  * [Custom Builds](#custom-builds)
+* [Functions](#functions)
+  * [holiday](#holiday)
+  * [isHoliday](#isholiday)
+  * [previousHoliday](#previousholiday)
+  * [nextHoliday](#nextholiday)
+  * [holidaysBetween](#holidaysbetween)
+* [The Holidays](#the-holidays)
+  * [Available Locales/Regions](#available-localesregions)
+  * [Modifying Holidays](#modifying-holidays)
+    * [modifyHolidays.set](#modifyholidaysset)
+    * [modifyHolidays.add](#modifyholidaysadd)
+    * [modifyHolidays.remove](#modifyholidaysremove)
+    * [modifyHolidays.undo](#modifyholidaysundo)
+    * [modifyHolidays.load](#modifyholidaysload)
+    * [modifyHolidays.extendParser](#modifyholidaysextendparser)
+  * [Locales](#locales)
+* [License](#license)
 
 ## Requirements
 * [moment.js](https://github.com/moment/moment) v2.0.0 or higher
@@ -29,6 +56,30 @@ moment().holiday('Christmas');
 ```
 bower install --save moment-holiday
 ```
+
+## Building
+`moment-holiday.js` does not come with any locales built-in by default. However, the following files are included for your convenience:
+
+* `build/moment-holiday-pkg.min.js` - moment-holiday with all available locales built-in.
+* `build/moment-holiday-us.min.js` - moment-holiday with the `United States` locale built-in.
+* `build/moment-holiday.min.js` - Minified version of moment-holiday with no locales built-in.
+
+You can generate the above files by running `gulp build`.
+
+### Custom Builds
+You can also generate your own custom builds of moment-holiday by using gulp with the following options:
+* **name** - The name of the file to generate. (Defaults to `moment-holiday-custom.js`)
+* **locale** - The locale(s) you would like included in the build. Pass this option multiple times to include multiple locales.
+* **set** - The locale(s) to have set by default in the build. Pass this option multiple times to have multiple locales set by default.
+* **min** - Pass this option if you would like the generated file to be minified.
+
+For example:
+
+```
+gulp --name=moment-holiday-ar.js --locale=Argentina --locale=Easter --set=Argentina --min
+```
+
+Sourcemaps are automatically created for all minified builds.
 
 ## Functions
 
@@ -244,8 +295,7 @@ moment('2017-01-01').holidaysBetween();
 ## The Holidays
 
 ### Available Locales/Regions
-* [US](moment-holiday.js) (Default/Built-in)
-* [Easter](locale/easter.js) (Easter Related Holidays)
+* [Argentina](locale/argentina.js)
 * [Canada](locale/canada.js)
   * `Canada/AB` - Alberta
   * `Canada/BC` - British Columbia
@@ -260,6 +310,8 @@ moment('2017-01-01').holidaysBetween();
   * `Canada/QC` - Quebec
   * `Canada/SK` - Saskatchewan
 * [Croatia](locale/croatia.js)
+* [Denmark](locale/denmark.js)
+* [Easter](locale/easter.js) (Easter Related Holidays)
 * [Finland](locale/finland.js)
 * [Germany](locale/germany.js)
   * `Germany/BB` - Brandenburg
@@ -273,6 +325,35 @@ moment('2017-01-01').holidaysBetween();
   * `Germany/SL` - Saarland
   * `Germany/ST` - Sachsen-Anhalt
   * `Germany/TH` - Thüringen
+* [India](locale/india.js)
+* [Switzerland](locale/switzerland.js)
+  * `Switzerland/AG` – Aargau
+  * `Switzerland/AI` – Appenzell Innerrhoden
+  * `Switzerland/AR` – Appenzell Ausserrhoden
+  * `Switzerland/BE` – Bern
+  * `Switzerland/BL` – Basel-Landschaft
+  * `Switzerland/BS` – Basel-Stadt
+  * `Switzerland/FR` – Freiburg
+  * `Switzerland/GE` – Genf
+  * `Switzerland/GL` – Glarus
+  * `Switzerland/GR` – Graubünden
+  * `Switzerland/JU` – Jura
+  * `Switzerland/LU` – Luzern
+  * `Switzerland/NE` – Neuenburg
+  * `Switzerland/NW` – Nidwalden
+  * `Switzerland/OW` – Obwalden
+  * `Switzerland/SG` – St. Gallen
+  * `Switzerland/SH` – Schaffhausen
+  * `Switzerland/SO` – Solothurn
+  * `Switzerland/SZ` – Schwyz
+  * `Switzerland/TG` – Thurgau
+  * `Switzerland/TI` – Tessin
+  * `Switzerland/UR` – Uri
+  * `Switzerland/VD` – Waadt
+  * `Switzerland/VS` – Wallis
+  * `Switzerland/ZG` – Zug
+  * `Switzerland/ZH` – Zürich
+* [United States](locale/united_states.js) (Default)
 
 Rather than listing all of the holidays here, to see available holidays, view the source of the locale file.
 
@@ -358,7 +439,16 @@ moment().holidays();
 //  'Christmas Day': moment("2017-12-25T00:00:00.000") }
 ```
 
-#### Adding/Setting Locales/Regions
+#### modifyHolidays.load
+Simply loads a locale file and makes it available without modifying the current holidays.
+
+```javascript
+moment.modifyHolidays.load('Argentina');
+
+moment.modifyHolidays.load(['Canada', 'Easter']);
+```
+
+##### Adding/Setting Locales/Regions
 You can also use these functions to set or add holidays from an available locale file:
 
 ```javascript
@@ -476,7 +566,7 @@ You can also see how we take advantage of this by viewing the source of [locale/
 Locale files are simply files that add holidays and special holiday parsing functionality for other countries. They are all located in the `locale/` folder.
 
 Pull Requests will be accepted (and encouraged!) but must meet the following guidelines:
-* Must contain a `moment.holidays.[locale]` object matching the filename all in lowercase.
+* Must contain a `moment.holidays.[locale]` object matching the filename all in lowercase (spaces are converted to underscores).
   * Example: `locale/japan.js` would need to have `moment.holidays.japan` in it.
   * Invalid: `local/Japan.js` or `moment.holidays.Japan`
 * Must pass `npm test`.
